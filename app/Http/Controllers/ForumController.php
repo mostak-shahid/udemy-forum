@@ -24,7 +24,7 @@ class ForumController extends Controller
     				if ($d->replies()->count()>0)
     				$answered[] = $d;
     			endforeach;
-                // $discussions = new Paginator($answered,3);
+                //$discussions = new Paginator($answered,3);
                 /*2nd Try*/
     			$discussions = $this->paginate($answered,3);
 
@@ -36,9 +36,19 @@ class ForumController extends Controller
     	return view('forum', ['discussions'=>$discussions]);
     }
     /*2nd Try*/
-    public function paginate($items, $perPage = 5, $page = null, $options = [])    {
+    /*public function paginate($items, $perPage = 5, $page = null, $options = [])    {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }*/
+    public function paginate($items,$perPage){
+        $pageStart = \Request::get('page', 1);
+        // Start displaying items from this number;
+        $offSet = ($pageStart * $perPage) - $perPage; 
+
+        // Get only the items you need using array_slice
+        $itemsForCurrentPage = array_slice($items, $offSet, $perPage, true);
+
+        return new LengthAwarePaginator($itemsForCurrentPage, count($items), $perPage,Paginator::resolveCurrentPage(), array('path' => Paginator::resolveCurrentPath()));
     }
 }

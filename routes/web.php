@@ -28,6 +28,8 @@ Route::get('/callback/{provider}', 'SocialController@callback');
 Route::get('/channels/{channel}',['uses'=>'ChannelController@show','as'=>'channels.show']);
 Route::get('/discussions/{discussion}',['uses'=>'DiscussionController@show','as'=>'discussions.show']);
 
+Route::get('/send', 'HomeController@sendNotification');
+
 Route::group(['middleware'=>'auth'], function(){	
 	Route::resource('channel','ChannelController')->middleware('admin');
 	Route::resource('discussion','DiscussionController');

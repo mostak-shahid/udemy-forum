@@ -11,7 +11,7 @@
                     <span class="badge badge-pill badge-success">Closed</span>
                     @endif
                     <div class="btn-group btn-group-sm float-right" role="group">
-                        @if($discussion->user_id == Auth::id())
+                        @if($discussion->is_author())
                             <a href="{{route('discussion.edit', ['discussion'=>$discussion->id])}}" class="btn btn-info"><i class="fa fa-pencil"></i></a>
                         @endif
                         <a href="{{route('discussions.show', ['discussion'=>$discussion->slug])}}" class="btn btn-info"><i class="fa fa-eye"></i></a>

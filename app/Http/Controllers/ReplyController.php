@@ -9,6 +9,8 @@ use App\Like;
 use App\User;
 use Auth;
 use Session;
+use Notification;
+use App\Notifications\MyFirstNotification;
 
 class ReplyController extends Controller
 {
@@ -23,12 +25,22 @@ class ReplyController extends Controller
             'discussion_id' => $request->discussion_id,
             'content' => $request->content,         
         ]);
-        $watchers = array();
+        /*$watchers = array();
         foreach($discussion->watches as $watcher):
             $watchers[] =  User::find($watcher->user_id);
-        endforeach;
-        // dd($watchers);
-        // Notification::send($watchers, new \App\Notifications\NewReplyAdded($discussion));
+        endforeach;*/
+        $user = User::all();
+  
+        $details = [
+            'greeting' => 'Hi Artisan',
+            'body' => 'This is my first notification from ItSolutionStuff.com',
+            'thanks' => 'Thank you for using ItSolutionStuff.com tuto!',
+            'actionText' => 'View My Site',
+            'actionURL' => url('/'),
+            'order_id' => 101
+        ];
+  
+        Notification::send($user, new MyFirstNotification($details));
 
         Session::flash('success', 'Comment has been created');
         return redirect()->back();

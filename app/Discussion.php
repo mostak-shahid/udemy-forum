@@ -38,4 +38,8 @@ class Discussion extends Model
         if (in_array(1, $arrayName)) return true;
         return false;
     }   
+    public function is_author(){
+        if($this->user_id === AUth::id()) return true;
+        return false;
+    }
 }
